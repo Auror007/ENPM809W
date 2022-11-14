@@ -1,0 +1,42 @@
+﻿@model ITSupportPortal.ViewModels.EditBlogViewModel
+@using ITSupportPortal.Data.Enums
+@{
+    ViewData["Title"] = "Update Blog";
+}
+
+
+<h2>
+    Update Blog Post
+</h2>
+<br />
+<p style="color:red">
+    @ViewBag.Message
+</p>
+@using (Html.BeginForm("Update", "Blog", FormMethod.Post))
+{
+    <fieldset class="form-group">
+        @Html.ValidationSummary(true)
+        <p>
+            @Html.LabelFor(m => m.Title)
+            @Html.TextBoxFor(m => m.Title)
+            @Html.ValidationMessageFor(m => m.Title)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description,20,40, htmlAttributes: new {style="width: 100%; max-width: 100%;" })
+            @Html.ValidationMessageFor(m => m.Description)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.level)
+            @Html.DropDownListFor(m => m.level,Html.GetEnumSelectList(typeof(BlogAuthorization)), "Select")
+        </p>
+        <p>
+            @Html.LabelFor(m => m.ProductCategory)
+            @Html.DropDownListFor(m => m.ProductCategory,Html.GetEnumSelectList(typeof(EnumProduct)), "Select")
+        </p>
+        @Html.HiddenFor(m => m.Id)
+    </fieldset>
+    <p class="submitButton">
+        <input type="submit" value="Update" />
+    </p>
+}

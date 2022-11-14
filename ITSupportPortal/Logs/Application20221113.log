@@ -1,0 +1,3 @@
+2022-11-13 19:25:43.397 -05:00 [Error] [ITSupportPortal.Controllers.AccountController] [] "customer1" login failed.
+2022-11-13 19:25:48.625 -05:00 [Information] [ITSupportPortal.Controllers.AccountController] [] "customer1" logged in to the application
+2022-11-13 19:25:52.492 -05:00 [Information] [ITSupportPortal.Controllers.AccountController] [] "customer1" logged out

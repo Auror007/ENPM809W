@@ -1,0 +1,113 @@
+﻿@model IEnumerable<ITSupportPortal.Models.Case>
+
+@{
+    ViewData["Title"] = "Case";
+}
+
+<div class="d-flex justify-content-between">
+    <div>
+        <h2>
+            Cases Registered
+        </h2>
+    </div>
+    <div>
+        <a asp-controller="Cases" asp-action="Create"><button class="btn btn-success">Create a New Case</button></a>
+    </div>
+</div>
+
+<br />
+
+<div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Actions</th>
+                <th>CaseID</th>
+                <th>Creation Time</th>
+                <th>Agent Assigned</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>State</th>
+            </tr>
+        </thead>
+    
+        
+            @*Create a list*@
+            <tbody>
+            @foreach (var caseitem in Model)
+            {
+                @if(caseitem.State == ITSupportPortal.Data.Enums.CaseState.Open){
+                    <tr>
+                        <td><a asp-controller="Cases" asp-action="Open" asp-route-id="@caseitem.Id"><button type="button" class="btn btn-info">Open</button></a></td>
+                        <td>@caseitem.Id</td>
+                        <td>@caseitem.CreationTime</td>
+                        @if (@caseitem.EmployeeID.Length == 0)
+                        {
+                            <td>No Agent Assigned</td>
+                        }
+                        else
+                        {
+                            <td>@caseitem.EmployeeID</td>
+                        }
+                        <td>@caseitem.Title</td>
+                        <td>@caseitem.Description</td>
+                        <td>@caseitem.State</td>
+                    </tr>
+                }
+                
+            }
+            <tbody>
+        </table>
+</div>
+
+<h2>Previous Cases</h2>
+<div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Actions</th>
+                <th>CaseID</th>
+                <th>Creation Time</th>
+                <th>Agent Assigned</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>State</th>
+            </tr>
+        </thead>
+
+
+        @*Create a list*@
+        <tbody>
+            @foreach (var caseitem in Model)
+            {
+                @if (caseitem.State == ITSupportPortal.Data.Enums.CaseState.Closed)
+                {
+                    <tr>
+                        <td>
+                            <div>
+                                    @using (Html.BeginForm("ReOpen", "Cases", FormMethod.Post))
+                                    {
+                                        <input type="hidden" name="id" value="@caseitem.Id" />
+                                        <button type="submit" class="btn btn-warning">Re-Open</button>
+                                    }
+                            </div>
+                        </td>
+                        <td>@caseitem.Id</td>
+                        <td>@caseitem.CreationTime</td>
+                        @if (@caseitem.EmployeeID.Length == 0)
+                        {
+                            <td>No Agent Assigned</td>
+                        }
+                        else
+                        {
+                            <td>@caseitem.EmployeeID</td>
+                        }
+                        <td>@caseitem.Title</td>
+                        <td>@caseitem.Description</td>
+                        <td>@caseitem.State</td>
+                    </tr>
+                }
+            }
+        <tbody>
+    </table>
+</div>

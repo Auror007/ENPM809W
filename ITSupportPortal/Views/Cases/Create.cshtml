@@ -1,0 +1,54 @@
+﻿@model ITSupportPortal.ViewModels.CreateCaseViewModel
+@using ITSupportPortal.Data.Enums
+@{
+    ViewData["Title"] = "Create Case";
+}
+
+<h2>
+    Raise Ticket
+</h2>
+<p>
+    Please enter your case details
+</p>
+<p style="color:red">
+    @ViewBag.Message
+</p>
+
+<form asp-action="Create" asp-controller="Cases" method="post" enctype="multipart/form-data" runat="server">
+
+    
+    <fieldset class="form-group">
+        @Html.ValidationSummary(true)
+        @if (@User.IsInRole("SupportAgent"))
+        {
+            <p>
+                @Html.LabelFor(m => m.CustomerID)
+                @Html.TextBoxFor(m => m.CustomerID)
+                @Html.ValidationMessageFor(m => m.CustomerID)
+            </p>
+        }
+        <p>
+            @Html.LabelFor(m => m.Title)
+            @Html.TextBoxFor(m => m.Title)
+            @Html.ValidationMessageFor(m => m.Title)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description,new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Description)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.ProductCategory)
+            @Html.DropDownListFor(m => m.ProductCategory,Html.GetEnumSelectList(typeof(EnumProduct)), "Select")
+        </p>
+        <p>
+            @Html.LabelFor(m => m.File)
+            @Html.TextBoxFor(m => m.File, new { type = "file" })
+            @Html.ValidationMessageFor(m => m.File)
+        </p>
+    </fieldset>
+    <p class="submitButton">
+        <input type="submit" value="Create" />
+    </p>
+
+</form>

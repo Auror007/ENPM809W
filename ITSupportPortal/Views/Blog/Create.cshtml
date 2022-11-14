@@ -1,0 +1,41 @@
+﻿@model ITSupportPortal.ViewModels.CreateBlogViewModel
+@using ITSupportPortal.Data.Enums
+@{
+    ViewData["Title"] = "Create Blog";
+}
+
+
+<h2>
+    Create a New Blog Post
+</h2>
+<br />
+<p style="color:red">
+    @ViewBag.Message
+</p>
+@using (Html.BeginForm("Create", "Blog", FormMethod.Post))
+{
+    <fieldset class="form-group">
+        @Html.ValidationSummary(true)
+        <p>
+            @Html.LabelFor(m => m.Title)
+            @Html.TextBoxFor(m => m.Title)
+            @Html.ValidationMessageFor(m => m.Title)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description,20,40, htmlAttributes: new {style="width: 100%; max-width: 100%;" })
+            @Html.ValidationMessageFor(m => m.Description)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.level)
+            @Html.DropDownListFor(m => m.level,Html.GetEnumSelectList(typeof(BlogAuthorization)), "Select")
+        </p>
+        <p>
+            @Html.LabelFor(m => m.ProductCategory)
+            @Html.DropDownListFor(m => m.ProductCategory,Html.GetEnumSelectList(typeof(EnumProduct)), "Select")
+        </p>
+    </fieldset>
+    <p class="submitButton">
+        <input type="submit" value="Create" />
+    </p>
+}

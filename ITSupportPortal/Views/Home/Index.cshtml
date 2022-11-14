@@ -1,0 +1,39 @@
+﻿@model List<ITSupportPortal.ViewModels.CaseMetricViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to IT Support Portal</h1>
+</div>
+
+@if(User.IsInRole("Admin")){
+    <h3 style ="margin-top:10%">Case Metrics</h3>
+    <div >
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Product Category</th>
+                    <th>Number of Cases</th>
+                    <th>Average Assignment Time</th>
+                    <th>Average Resolution Time</th>
+                </tr>
+            </thead>
+
+
+            @*Create a list*@
+            <tbody>
+                @foreach (var item in Model)
+                {  
+                    <tr>
+                        <td>@item.productCategory</td>
+                        <td>@item.numberOfCases</td>
+                        <td>@item.AverageAssignTimeSpan</td>
+                        <td>@item.AverageResolutionTimeSpan</td>
+                    </tr>
+                }
+            <tbody>
+        </table>
+    </div>
+
+}

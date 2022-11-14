@@ -1,0 +1,58 @@
+﻿@model ITSupportPortal.ViewModels.CommentBlogViewModel
+@using ITSupportPortal.Data.Enums;
+
+@{
+    ViewData["Title"] = "Read";
+}
+
+<div class="d-flex justify-content-between">
+    <div>
+        <h2>
+            @Model.blogDetail.Title
+        </h2>
+    </div>
+</div>
+
+<br />
+<div>
+    <p><b>Product Category:</b> @Model.blogDetail.ProductCategory</p>
+    <p><b>Last Modified Time:</b> @Model.blogDetail.CreatedDate</p>
+</div>
+
+<div>
+    <p style="white-space: pre-line">@Model.blogDetail.Description</p>
+</div>
+
+<hr />
+<br />
+<div>
+        <h6><b>Comments</b></h6>
+        @if(Model.comments != null){
+    
+                    @foreach (var comment in @Model.comments)
+                    {
+                        <p>@comment.Message </p>
+                        <p>@comment.Username : @comment.CommentTime</p>
+                        <hr />
+                    }
+    
+        }
+
+</div>
+<div>
+    @using (Html.BeginForm("Comment", "Blog", FormMethod.Post))
+    {
+        <fieldset class="form-group">
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(m => m.blogDetail.Id)
+            <p>
+                @Html.LabelFor(m => m.newComment.Message)
+                @Html.TextAreaFor(m => m.newComment.Message,3,2,htmlAttributes: new {style="width: 100%; max-width: 100%;" })
+                @Html.ValidationMessageFor(m => m.newComment.Message)
+            </p>
+        </fieldset>
+        <p class="submitButton">
+            <button type="submit" class="btn btn-info" value="Comment">Comment</button>
+        </p>
+    }
+</div>

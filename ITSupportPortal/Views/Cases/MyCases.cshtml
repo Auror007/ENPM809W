@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ITSupportPortal.Models.Case>
+
+@{
+    ViewData["Title"] = "My Cases";
+}
+
+
+<h3>My Cases</h3>
+<br />
+
+<div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Actions</th>
+                <th>CaseID</th>
+                <th>Creation Time</th>
+                <th>Customer Id</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var caseitem in Model)
+            {
+                @if (@caseitem.EmployeeID == User.Identity.Name)
+                {
+                    <tr>
+                        <td>
+                            <div style="display:inline-block">
+                                <a asp-controller="Cases" asp-action="Open" asp-route-id="@caseitem.Id"><button type="button" class="btn btn-info">Open</button></a>
+                            </div>
+                        </td>
+                        <td>@caseitem.Id</td>
+                        <td>@caseitem.CreationTime</td>
+                        <td>@caseitem.CustomerID</td>
+                        <td>@caseitem.Title</td>
+                        <td>@caseitem.Description</td>
+                    </tr>
+                }
+
+            }
+        <tbody>
+    </table>
+</div>

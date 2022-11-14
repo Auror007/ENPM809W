@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ITSupportPortal.Models.BlogDetail>
+@*Add Edit and Delete button alongwith the Title if role is admin
+*@
+
+@{
+    ViewData["Title"] = "Blogs";
+}
+
+<div class="d-flex justify-content-between" style="margin-top:2%">
+    <div>
+        <h2>
+            Blogs
+        </h2>
+    </div>
+    @if(User.IsInRole("Admin")){
+        <div>
+            <a asp-controller="Blog" asp-action="Create"><button class="btn btn-primary">Create a New Blog</button></a>
+        </div>
+    }
+  
+</div>
+<br />
+@if(!Model.Any()){
+    <h4 style="color:grey">No Blogs available. Please check later.</h4>
+}else
+{   
+    <div  style="margin-top:5%" >
+        @foreach (var blog in Model)
+        {
+            <div class="d-flex justify-content-between" >
+                 <h3>@blog.Title</h3>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div>                                   
+                        <div style="display:inline-block">
+
+                            @using (Html.BeginForm("Update", "Blog", FormMethod.Get))
+                            {
+                                <input type="hidden" name="id" value="@blog.Id" />
+                                <button type="submit" class="btn btn-warning">Edit Blog</button>
+                            }
+                        </div>
+                        <div style="display:inline-block">
+
+                            @using (Html.BeginForm("Delete", "Blog", FormMethod.Post))
+                            {
+                                <input type="hidden" name="id" value="@blog.Id" />
+                                <button type="submit" class="btn btn-danger">Delete Blog</button>
+                            }
+                        </div>
+
+                    </div>
+                }
+            </div>
+            <br />
+            <div>
+                <p>Product Category: @blog.ProductCategory</p>
+                <p>Last Updated Date: @blog.CreatedDate</p>
+                <a asp-controller="Blog" asp-action="Read" asp-route-id="@blog.Id">View Blog</a>
+                <hr />
+             </div>
+               
+        }
+    </div>
+}

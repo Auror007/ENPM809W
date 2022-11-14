@@ -1,0 +1,90 @@
+﻿@model ITSupportPortal.ViewModels.OpenCaseViewModel
+@using ITSupportPortal.Data.Enums;
+
+@{
+    ViewData["Title"] = "Case";
+}
+
+<div class="d-flex justify-content-between">
+    <div>
+        <h2>
+            Case Details
+        </h2>
+    </div>
+    
+    <div>
+        @if (@Model.openCase.State == CaseState.Open)
+        {
+            @using (Html.BeginForm("Close", "Cases", FormMethod.Post))
+            {
+                <input type="hidden" name="id" value="@Model.openCase.Id" />
+                <button type="submit" class="btn btn-danger">Close Case</button>
+            }
+        }
+    </div>
+</div>
+
+<br />
+<div>
+    <p><b>Customer Name:</b> @Model.openCase.CustomerID</p>
+    <p><b>Creation Time:</b> @Model.openCase.CreationTime</p>
+    <p><b>Title:</b> @Model.openCase.Title</p>
+    <p><b>Description:</b> @Model.openCase.Description</p>
+    <div>
+        @if (@Model.openCase.UploadedFile == true)
+        {
+            @using (Html.BeginForm("Download", "Cases", FormMethod.Get))
+            {
+                <input type="hidden" name="id" value="@Model.openCase.Id" />
+                <button type="submit" class="btn btn-success">Get File</button>
+            }
+        }
+    </div>
+</div>
+
+<hr />
+<br />
+<div>
+@if(Model.chatHistory != null){
+    
+        <ul style="list-style-type:'\00BB'">
+            @foreach (var chat in @Model.chatHistory)
+            {
+                <li>  @chat.Username : [@chat.CreatedAt] > @chat.Message</li>
+            }
+        </ul>
+    
+}
+    <ul id="messagesList" style="list-style-type:'\00BB'"></ul>
+</div>
+
+
+<div class="container">
+        <div class="col-4"><input type="hidden" id="userInput" value="@User.Identity.Name" /></div>
+    <div class="row">
+        <div class="col-2">Message</div>
+        <div class="col-4"><input type="text" id="messageInput" /></div>
+        <input type="hidden" id="groupName" value="@Model.openCase.Id" />
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <ul id="messagesList1"></ul>
+    </div>
+</div>
+
+
+
+<script defer src="~/js/signalr/dist/browser/signalr.js"></script>
+<script defer src="~/js/chat.js"></script>

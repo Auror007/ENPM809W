@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ITSupportPortal.Models.Case>
+
+@{
+    ViewData["Title"] = "Case Queue";
+}
+
+<div class="d-flex justify-content-between">
+    <div>
+        <h2>
+            Queue
+        </h2>
+    </div>
+    <div>
+        <a asp-controller="Cases" asp-action="Create"><button type="button" class="btn btn-success">Create a New Case</button></a>
+    </div>
+</div>
+
+<br />
+
+<div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Actions</th>
+                <th>CaseID</th>
+                <th>Creation Time</th>
+                <th>Customer Id</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var caseitem in Model)
+            {
+                @if (@caseitem.EmployeeID.Length == 0)
+                {
+                    <tr>
+                        <td>
+                            <div style="display:inline-block">
+                                @using (Html.BeginForm("Assign", "Cases", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="id" value="@caseitem.Id" />
+                                    <button type="submit" class="btn btn-danger" >Assign to Self</button>
+                                }
+                            </div>
+
+                            @*<div style="display:inline-block">
+                                <a asp-controller="Cases" asp-action="Open" asp-route-id="@caseitem.Id"><button type="button" class="btn btn-info">Open</button></a>
+                            </div>   *@
+                         </td>
+                        <td>@caseitem.Id</td>
+                        <td>@caseitem.CreationTime</td>
+                        <td>@caseitem.CustomerID</td>
+                        <td>@caseitem.Title</td>
+                        <td>@caseitem.Description</td>
+                    </tr>
+                }
+          
+            }
+        <tbody>
+    </table>
+</div>
+

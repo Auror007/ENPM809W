@@ -1,0 +1,2 @@
+﻿DELETE FROM dbo.AspNetUsers
+DBCC CHECKIDENT ('aspnet-ITSupportPortal-0CD0625D-E886-4D38-927C-F9D5336A2B92.dbo.AspNetUsers',RESEED, 0);

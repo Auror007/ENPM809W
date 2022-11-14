@@ -1,0 +1,58 @@
+﻿@model RegisterViewModel
+@using ITSupportPortal.ViewModels;
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Create a New Account</h2>
+
+<p>
+    Use the form below to create a new account.
+    <br />
+    <ul>
+        <li>
+            Passwords are required to be a minimum of 12 characters in length.
+        </li>
+        <li>
+            At least one digit, one alphanumeric character, lowercase and uppercase letter.
+        </li>
+    </ul>
+
+</p>
+
+@Html.ValidationSummary(true,"",new {@style= "color: red"})
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <fieldset class="login">
+        <legend>Account Information</legend>
+        <p>
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username)
+            @Html.ValidationMessageFor(m => m.Username)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email)
+            @Html.ValidationMessageFor(m => m.Email)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.CompanyName)
+            @Html.TextBoxFor(m => m.CompanyName)
+            @Html.ValidationMessageFor(m => m.CompanyName)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.ConfirmedPassword)
+            @Html.PasswordFor(m => m.ConfirmedPassword)
+            @Html.ValidationMessageFor(m => m.ConfirmedPassword)
+        </p>
+    </fieldset>
+    
+    <p class="submitButton">
+        <input type="submit" value="Register" />
+    </p>
+}
